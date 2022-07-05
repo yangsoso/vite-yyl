@@ -1,4 +1,15 @@
-var a  = '2.3,3,5.6,7,6;11,3,8.6,25,1;0.3,9,5.3,66,7.8;1,3,2,7,5;340,670,80.6;<=,<=,<=';
+// 第一题
+// ace
+// abcdef
+
+// 找到第一个输入的最后一个字符 e，在第一个字符串中的位置，并输出 4
+
+// 第二题
+// 跳格子游戏
+
+
+//第三题 不等式是否满足约束并输出最大差 
+var a  = '2.3,3,5.6,7,6; 11,3,8.6,25,1; 0.3,9,5.3,66,7.8; 1,3,2,7,5; 340,670,80.6;<=,<=,<=';
 // a11 = 2.3, 3, 5.6, 7, 6;
 // a21 = 11, 3,  8.6, 25, 1;
 // a31 = 0.3, 9, 5.3, 66, 7.8;
@@ -28,27 +39,6 @@ for(let i = 0;i< b.length; i++){
 
 }
 
-function update(progressBarId, increase) {
-    // Write the code that goes here
-    function a(n) {
-      return increase + n
-    }
-    const result = a()
-    let value = document.getElementById(progressBarId).attributes('value')
-    if(result >= 100) {
-        document.getElementById(progressBarId).setAttribute('value',100);
-        return true;
-    }else {
-        document.getElementById(progressBarId).setAttribute('value',result)
-        return false;
-    }
-   
-  }
-  
-  // Example case. 
-  document.body.innerHTML = `<progress id="loading-bar" value="0" max="100"></progress>`;
-  console.log(update("loading-bar", 50)); // should return false and loading-bar's value should be 50.
-  console.log(update("loading-bar", 50)); // should return true and loading-bar's value should be 100.
 
 
   
