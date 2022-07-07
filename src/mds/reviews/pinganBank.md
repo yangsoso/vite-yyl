@@ -1,171 +1,5 @@
 # 面试题汇总
-    前端面试过程中，往往由于我们紧张或者没有听懂面试官的问题。导致我们回答问题的时候缺少思路，没有形成框架回答。面试官就判断你的能力和级别就会偏低。这篇 md 就是记录一下我在今年的面试中，和面试官说了很多废话，然后可能让面试官觉得我解释过多，没有一下说到重点，这是比较尴尬的。下面我整理的内容都会是简要回答模板和深入分析的内容2个部分来梳理。
-
-    **问题简要回答深入刨析**
-
-### link 和 @import 有什么区别
-  - 简答
-    link 是 HTML 标签；@import 是 css 语法；
-    页面被加载时，link 会和 html 同时被加载；@import 在页面记载完后才被加载；
-    @import 是 css2.1 才有的语法，IE5以下不支持；link 不存在兼容性问题；
-    link 的样式权重高于 @import 的权重
-    javaScript 只能控制 dom 去改变 link 标签引入的样式；而 @import 的样式不是 dom 可以控制的
-    
-### ::before 和 :after 中双冒号和单冒号有什么区别，解释一下伪元素的作用
-    单冒号(:) 用于 CSS3伪类，双冒号(::)用于 CSS3 伪元素
-    ::before 就是以一个子元素存在，定义在元素主体之前的一个伪元素。并不存在于 dom 之中，只存在页面之中。
-
-    :before 和 :after 这2个伪元素，是在 CSS2.1中新出现的。起初，伪元素的前缀使用的是单冒号语法，但随着 Web 的进化，在 CSS3 的规范里，伪元素的语法就被替换为双冒号，成为 ::before ::after
-
-### CSS3 新增的伪类有哪些
-    div:first-child —— 匹配 div 中第一个元素
-    div:last-child —— 匹配 div 中最后一个元素
-    div:nth-child(n) —— 匹配父元素中第n个子元素 n可以是数字、关键字、公式。
-        注意:n也可以是 even（表示偶数） odd（表示奇数） n也可以是公式，从0开始
-        
-    div:first-of-type —— 指定类型 div 的第一个
-    div:last-of-type —— 指定类型 div 的最后一个
-    div:nth-of-type(n) —— 指定类型e的第n个
-
-    div:not(div2)    //除div2之外的全部div
-    :enable 选择可用表单元素
-    :disable 选择禁用表单元素
-    :checked 选择被选中的表单元素
-
-### css 伪类元素
-    :before —— 在元素内部的前面插入内容
-    :after —— 在元素内部的后面插入内容
-
-值得注意的是:
-    before、after 必须得有 content 属性
-    before 在内容的前面，after 在内容的后面
-    before 和 after 创建一个元素，都属于行内元素
-    因为在 dom 里面看不见伪元素，所以称之为这类元素为 伪元素
-    伪元素和标签选择器一样，权重为 1
-
-### BFC
-    简要回答:
-   > 块级格式化上下文。是一个独立的区域。
-   > 作用: 可以清除浮动、避免margin重叠、避免某元素被浮动元素覆盖(避免高度塌陷)、实现灵活健壮的自适应布局(自适应两栏布局)。
-
-   BFC布局规则:
-    内部的 box 会在垂直方向上一个接一个的放置。
-    Box 垂直方向的距离由 margin 决定，属于同一 BFC 的两个相邻 box 的 margin 会发生重叠。
-    每个元素的 margin box 的左边，与包含块 border box 的左边接触
-    BFC 区域不会与 float box 重叠
-    子元素不会影响到外面的元素，形成一个隔离的容器
-    计算 BFC 的高度时，浮动元素也会参与计算
-    BFC 布局的都是块级元素
-
-    如何创建 BFC ？
-    * 根元素
-    * float 的值不是 none
-    * overflow 的值不是 visible 
-    * position 的值不是 static 或 relative
-    * display 的值为 table-cell，table-caption，或 inline-block 中的任意一个
-    * contain 的值为 layout，content，paint，或 strict 中的任意一个
-
-    总结：
-    BFC 内外互不影响 
-    BFC 包含内部的浮动   --解决内部浮动元素导致的塌陷
-    BFC 排斥外部的浮动   --BFC 的元素不会和外部的浮动发生重叠
-    外边距折叠的计算不能跨域 BFC 的边界 
-    兄弟 BFC 元素互不影响 --实现多列布局
-
-    BFC 应用场景
-    解决块级元素垂直方向margin重叠
-    解决高度塌陷问题
-    清除浮动
-
-### 常见的 格式化上下文有哪些
-    简答： BFC(block 块级) IFC(inline 内联行内) FFC(flex 弹性 css3) GFC(grid 栅格 css3)
-    
-    总结：
-    一般来说，FFC能做的事情，通过GFC都能搞定，反过来GFC能做的事通过FFC也能实现。 通常弹性布局使用FFC，二维网格布局使用GFC。
-    所有的 FFC 与 GFC 也是一个 BFC，在遵循自己的规范的情况下，向下兼容 BFC 规范。
-
-#### IFC
- > 行级格式化上下文
-    
-   如何触发IFC
-    块级元素中仅包含内联级别元素
-
-   IFC布局规则
-   * 在一个IFC内，子元素是水平方向横向排列的，并且垂直方向起点为元素顶部
-   * 子元素只会计算横向样式空间，【padding、border、margin】，垂直方向样式空间不会被计算，【padding、border、margin】
-   * 在垂直方向上，子元素会以不同形式来对齐（vertical-align）
-   * 能把在一行上的框都完全包含进去的一个矩形区域，被称为该行的行框（line box）。行框的宽度是由包含块（containing box）和与其中的浮动来决定。
-   * IFC中的line box一般左右边贴紧其包含块，但float元素会优先排列。
-   * IFC中的line box高度由 CSS 行高计算规则来确定，同个IFC下的多个line box高度可能会不同。
-   * 当 inline boxes的总宽度少于包含它们的line box时，其水平渲染规则由 text-align 属性值来决定。
-   * 当一个inline box超过父元素的宽度时，它会被分割成多个boxes，这些boxes分布在多个line box中。如果子元素未设置强制换行的情况下，inline box将不可被分割，将会溢出父元素。
-
-    IFC 应用场景
-    元素水平居中(display: inline-block;; text-align: center;)
-    多行文本水平垂直居中(多行文本水平垂直居中display: inline-block;vertical-align: middle;)
-
-#### GFC 栅格格式化上下文
- > Grids网格布局
-
- 如何触发GFC？
- 当为一个元素设置display值为grid或者inline-grid的时候，此元素将会获得一个独立的渲染区域
-
- 应用场景
- 表格，合并，自由拼接，任意魔方布局
-
-#### FFC 弹性格式化上下文
-> flex布局,弹性盒模型,用作自适应布局比较多
-> FFC布局中，float、clear、vertical-align属性不会生效
-
-    如何触发FFC？
-    当 display 的值为 flex 或 inline-flex 时，将生成弹性容器（Flex Containers）, 一个弹性容器为其内容建立了一个新的弹性格式化上下文环境（FFC）
-
-    FFC布局规则
-    * 设置为 flex 的容器被渲染为一个块级元素
-    * 设置为 inline-flex 的容器被渲染为一个行内元素
-    * 弹性容器中的每一个子元素都是一个弹性项目。弹性项目可以是任意数量的。弹性容器外和弹性项目内的一切元素都不受影响。简单地说，Flexbox 定义了弹性容器内弹性项目该如何布局
-
-    FFC应用场景
-    自动撑开剩余高度/宽度
-    问题：看一个经典两栏布局：左边为侧边导航栏，右边为内容区域，用我们之前的常规布局，可能就需要使用到css的calc方法来动态计算剩余填充宽度了，但如果使用flex布局的话，只需要一个属性就能解决这个问题
-
-### 分别简述 computed 和 watch 的使用场景
-    computed 内部的函数在调用时不加()
-    computed 是依赖 vm 中 data 的属性变化而变化的，也就是说，当 data 中的属性发生改变的时候，当前函数才会执行，data 中的属性没有改变的时候，当前函数不会执行
-    computed 中的函数必须用 return 返回。
-    在computed 中不要对 data 中的属性进行赋值操作。如果对data中的属性进行赋值操作了，就是 data 中的属性发生改变，从而触发 computed 中的函数，形成死循环了
-    
-    watch 中的函数名称必须要和data中的属性名一致，因为 watch 是依赖 data 中的属性，当 data 中的属性发生改变的时候，watch 中的函数就会执行
-    watch 中的回调函数有两个参数，前者是 newVal，后者是oldVal
-    watch 中的回调函数是不需要调用的 可以设置立即执行和深度监听
-
-    ```
-    get curName() {
-        return this.name;
-    },
-
-    watch: {
-        'cityName.name': {
-            handler(newName, oldName) {
-            // ...
-            },
-            deep: true,
-            immediate: true
-        }
-    }
-    ```
-    使用场景:computed----当一个属性受多个属性影响的时候。watch----当一条数据影响多条数据的时候，使用watch。
-    todo 原理
-
-### Map Set Object 的用法和区别
-    JavaScript 的对象 Object，本质上是键值对的集合（Hash 结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制.
-    Map 键值对结构，和 JSON 对象类似; key 可以是字符串或对象的任意类型, 完善 Object 的 key 只能是字符串的缺憾。
-    Set 值就是键，不能通过迭代器来改变 Set 的值
-    - 区别
-    Object 是 字符串-值 的对应，Map 是 值-值 的对应。
-    Map 和 Set 都具有极快的查找速度
-    初始化的值不一样，Map 需要一个二位数组，而 Set 需要的是一维 Array 数组
-    Map 和 Set 都不允许健重复
+ 这些内容是6月份还没有问的问题
 
 ### created 和 mounted 的区别
     created: 在模板渲染成 html 前调用，即通常初始化某些属性值，然后再渲染成视图。
@@ -255,9 +89,6 @@
 ### v-on可以监听多个方法吗
     v-on可以监听多个方法,对象形式 <button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
 
-### $nextTick的使用
-    nextTick的使用原则主要就是解决单一事件更新数据后立即操作dom的场景。
-
 ### Mixins使用
     混入，分发 Vue 组件中可复用功能的方式
     特点1:方法和参数在各组件中不共享
@@ -273,18 +104,9 @@
 ### vue组件中data为什么必须是一个函数
     组件被定义时data必须申明为一个初始化数据对象的函数，因为组件可能被用来创建多个实例。如果data任然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供data函数，每次创建一个新实例后，我们能调用到data函数，从而返回初始数据的一个全新的副本数据对象（也就是说写成函数会有函数作用域的概念，是私有函数只能作用于当前组件中）
 
-### 组件间的通信
-    方法一、props/$emit
-    方法二、$emit/$on，这种方法通过一个空的 Vue 实例作为中央事件总线（事件中心），用它来触发事件和监听事件,巧妙而轻量地实现了任何组件间的通信，包括父子、兄弟、跨级
-    方法三、vuex
-    方法四、$attrs/$listeners
-    方法五、provide/inject，Vue2.2.0 新增 API,这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。一言而蔽之:祖先组件中通过 provider 来提供变量，然后在子孙组件中通过 inject 来注入变量。provide / inject API 主要解决了跨级组件间的通信问题，不过它的使用场景，主要是子组件获取上级组件的状态，跨级组件间建立了一种主动提供与依赖注入的关系。
 
 ### 渐进式框架的理解
-    渐进式框架的理解(https://www.zhihu.com/question/51907207)
-
-### Vue中双向数据绑定是如何实现的
-    VUE实现双向数据绑定的原理就是利用了 Object.defineProperty() 这个方法重新定义了对象获取属性值(get)和设置属性值(set)的操作来实现的
+    [渐进式框架的理解](https://www.zhihu.com/question/51907207)
 
 ### assets和static的区别
     assets和static两个都是存放静态资源文件。项目中所需要的资源文件图片，字体图标，样式文件等都可以放在这两个文件下，这是相同点
@@ -379,67 +201,15 @@
     （4），服务器在接收请求后，解析用户请求，调度对应的资源文件，处理请求，最后将结果通过web服务器返回给浏览器。
     （5），在数据传输完成后，为了避免服务器与客户端双方的资源占用与损耗，会通过四次挥手关闭TCP连接。
     （6），在拿到HTML，CSS，JS等资源后，浏览器会开始解析，通过解析HTML生成DOM树，解析CSS生成CSS规则树，然后通过DOM树和CSS规则树 生成渲染树
-
-### 什么是微事件，什么是宏事件
-    宿主环境提供的叫宏事件，如浏览器或node。
-    语言标准提供的叫微事件，如ES6。
-    宏事件有:setTimeout，setInerval，setImmediate，requestAnimationFrame
-    微事件有:Promise，nextTick，MutationObserver
-
-### 深拷贝和浅拷贝
-    深拷贝和浅拷贝最根本的区别在于是否真正获取看一个对象的复制实体，而不是引用。
-    深拷贝的方法:
-    （1）JSON.parse(JSON.stringIfy()) 
-        **这种方式无法正确处理函数和正则，会丢失掉这部分的数据。**
-    （2）用递归去复制所有层级属性
-    （3）通过jQuery的$.extend(true,[],obj)
-
-    浅拷贝的方式：
-    Object.assign()、扩展运算符、Array.prototype.slice() 、Array.prototype.concat()
-
-### 节流和防抖
-    在前端开发过程中，我们经常会需要绑定一些持续触发的事件，如:resize，scroll，mousermove。但是有些时候我们并不想在事件持续触发的过程中那么频繁的去执行事件回调函数。所有我们就需要节流和防抖。
-    节流就是指，在事件持续触发的过程中，我们设置一个定时器，在规定的时间触发一次回调函数。
-    防抖就是指，我们设置一个计时器，在最后一次事件触发后开始计时，时间到了触发一次回调函数，如果时间没到又触发了事件，则将计时器的时间归位，重新计时。
-    简单来说:节流是控制频率，防抖是控制次数。
-
-### nextTick() 的原理及使用场景
-    nextTick是在下次DOM更新循环结束后执行延迟回调。
-    在修改数据之后立即使用这个方法，获取更新后的DOM。
     
 ### jQuery立即执行函数为什么要传入jQuery
     首先函数会构建作用域，把jQuery传进去，可以减少作用域的查询，提供js的执行速度。把jQuery传进去后，则只需要在函数体内查找即可。
-
-### SFC
-    平时写的.vue文件称为SFC，单文件组件规范。
-    每个vue文件包含三种类型的顶级语言块，template，script，style。还允许添加可选的自定义块。
 
 ### Promise.all 与 Promise.race的区别
     - Promise.all
         可以将多个promise实例包装成一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是数组，而失败的时候返回的是最先被reject失败状态的值。
     - Promise.race
          是哪个结果获取的最快，就返回哪个结果的值。不管结果本身是成功还是失败。
-
-### proxy 相对于 Object.defineProperty 的优势
-    - 直接监听对象，数组的变化，而非属性
-    - Proxy 返回一个新的对象，可以只操作新对象达到目的，而 Object.defineProperty 只能遍历对象属性 直接修改
-
-### Object.defineProperty VS Proxy 
-   - Object.defineProperty 只能劫持对象的属性，而 Proxy 是直接代理对象
-   - Object.defineProperty对新增属性需要手动进行Observe
-
-   - Proxy兼容性差
-   
-   总结：
-    - Object.defineProperty 对数组和对象的表现一致，并非不能监控数组下标的变化，vue2.x中无法通过数组索引来实现响应式数据的自动更新是vue本身的设计导致的，不是 defineProperty 的锅。
-    - Object.defineProperty 和 Proxy 本质差别是，defineProperty 只能对属性进行劫持，新增属性需要手动 Observe 的问题。
-    - Proxy 作为新标准，浏览器厂商势必会对其进行持续优化，但它的兼容性也是块硬伤，并且目前还没有完整的polyfill方案。
-
-### 单页面与多页面的区别
-    单页面应用（SPA）只有一个web页面的应用。单页面跳转仅刷新局部资源，公共资源仅需加载一次，常用与PC端官网，购物网站。
-    多页面应用（MPA）多页面跳转刷新所有的资源，每个公共资源需选择性重新加载，常用与APP或客户端。
-    单页面优点:用户体验好，内容改变不需要刷新整个页面。前后端分离。页面效果会比较炫酷
-    单页面缺点:不利于SEO，导航不可用，需自行实现。初次加载耗时多。
 
 ### v-for与v-if的优先级
     v-for比v-if具有更高的优先级，可以有条件的展示循环数据的值。
@@ -480,10 +250,6 @@
     .once 事件只触发一次
 
 ### vue与angular的区别
-
-### vue 与 react 的区别
-
-### http 的请求头有哪些
 
 ### webpack优势
     对 CommonJS 、AMD 、ES6的语法做了兼容；
