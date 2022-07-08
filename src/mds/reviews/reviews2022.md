@@ -38,6 +38,19 @@ console.log(format_with_array(1234567893.99));
 		
 3. 请求超时了，想要中止掉promise，但是promise的状态是开启之后就无法中止的。es7给出的新的api Promise.race()可以处理这种超时断开的行为
 
+### 判断对象实例的类型
+   - Object.prototype.toString.call()
+   - instanceof
+   - typeof 
+
+### 严格相等 ===、抽象相等 == 、Object.is(ES5/ES6)
+    == 双等号将执行类型转换
+    === 比较前都不进行隐式转换
+    Object.is 与三等号相同，细微区别
+        对于 NaN 和-0 和 +0 进行特殊处理,Object.is(NaN,NaN) 将为 true。NaN === NaN 将为 false;
+        Object.is(0,-0) 将为 false; 0 === -0  将为 true;
+
+
 ## ES6 模块加载规则
    * 代码是在模块作用域之中运行，而不是在在全局作用域运行。模块内部的顶层变量，外部不可见。
    * 模块脚本自动采用严格模式，不管有没有声明 use strict。
