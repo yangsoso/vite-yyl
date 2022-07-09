@@ -13,7 +13,7 @@ x +1
 
 // 2. Symbol: 创建后独一无二且不可改变的数据类型,可作为对象的key值。主要解决可能出现的全局变量名称冲突的问题
 
-// 二、数据结果
+// 二、数据结构
 // 带键的集合 Map Set WeakMaps WeakSets
 
 // 1. Set 
@@ -71,6 +71,26 @@ wm1.set(key, 2);
 wm1.get(key) // 2
 
 // 如何判断一个对象是空对象
-// 1. JSON.stringify({}) == {}
-// 2. Object.keys({}).length 
+// 1. JSON.stringify({}) === '{}' 缺陷： 判断不出Symbol
+ JSON.stringify({[Symbol()]:1}) === '{}'
+//  true
 
+// 2. Object.keys({}).length === 0 缺陷： 判断不出Symbol
+Object.keys({[Symbol()]:1}).length === 0 
+
+// 3. 1和2的2中方法都不能判断出来Symbol 使用 Object.getOwnPropertySymbols({}).length  可以判断初步Symbol
+Object.getOwnPropertySymbols({[Symbol()]:1}).length // 1
+
+// 3. Reflect.ownKeys({}).length === 0 最优办法
+Reflect.ownKeys({}).length === 0 // true
+Reflect.ownKeys({[Symbol()]:1}).length === 0 // false
+
+// 四、Reflect
+/** Reflect设计的目的
+ *  1.将 Object 对象的一些明显属于语言内部的方法（比如 Object.defineProperty ），放到 Reflect 对象上。
+    现阶段，某些方法同时在 Object 和 Reflect 对象上部署，未来的新方法将只部署在 Reflect 对象上。也就是说，从 Reflect 对象上可以拿到语言内部的方法
+    2. 修改某些 Object 方法的返回结果，让其变得更合理。
+    比如， Object.defineProperty(obj, name, desc) 在无法定义属性时，会抛出一个错误，而 Reflect.defineProperty(obj, name, desc) 则会返回 false
+    3. 让 Object 操作都变成函数行为。 .has(obj, name)、.deleteProperty(obj, name)、.set(target, name, value, receiver)
+    4. Proxy 对象可以方便地调用对应的 Reflect 方法，完成默认行为，作为修改行为的基础
+*/ 
