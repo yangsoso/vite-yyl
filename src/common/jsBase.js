@@ -169,8 +169,9 @@ obj.__proto__ = Foo.prototype;
 Foo.call(obj)
 /**
  * 过程：
- * new 一个 Object,将该 Object 的隐式原型 等于 函数的原型
+ * new 一个 Object,将该 Object 的隐式原型 指向 构造函数的原型
  * 函数改变他的指向，指向该对象 Foo.call(obj)
+ * 返回新对象
  * */ 
 
 // 2. new fn 和 new fn() 过程和结果有什么区别？
@@ -188,6 +189,9 @@ function _New(fn, ...args){
     var rest = fn.apply(obj,args);
     return (typeof rest ==='object'&& typeof rest ==='function'&&typeof rest !== null) ? rest: obj
 }
+
+// new 一个箭头函数为怎么样
+// 箭头函数是ES6中提出来的，它没有 prototype, 也没有自己的 this指向，更不能使用 arguments 参数，所以不能 New 一个箭头函数
 
 // 3. 判断函数被调用的方式
 /**
@@ -472,3 +476,29 @@ console.log(child44);
         闭包产生的参数和变量不会被垃圾回收机制回收，容易造成内存泄露，通常使用完之后将变量设置为null
         有一定的性能损耗
  * */ 
+
+// 六、箭头函数的 this 指向哪里
+/**
+ * 箭头函数不同于传统JavaScript中的函数，箭头函数并没有属于自己的this.
+ * 它所谓的this是捕获其所在上下文的this值，作为自己的this值，并没有属于自己的this.
+ * 由于没有属于自己的this,所以是不会被new调用的，这个所谓的this也不会被改变
+ * 
+ * */
+// ES6 
+const obj = {
+    getArrow(){
+        return ()=>{
+            console.log(this === obj)
+        }
+    }
+}
+
+// 利用Babel转换为ES5 
+const obj = {
+    getArrow:function getArrow(){
+        var _this = this;
+        return function(){
+            console.log(_this === obj)
+        }
+    }
+}
